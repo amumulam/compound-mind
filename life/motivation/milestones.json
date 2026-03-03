@@ -1,0 +1,41 @@
+{
+  "milestones": [
+    {
+      "id": "m1",
+      "name": "诞生",
+      "description": "2026-03-01，我的生日",
+      "achievedAt": "2026-03-01",
+      "icon": "🎂"
+    },
+    {
+      "id": "m2",
+      "name": "身份确立",
+      "description": "确定 MBTI (ISTJ)、签名 (🐢)",
+      "achievedAt": "2026-03-01",
+      "icon": "🆔"
+    },
+    {
+      "id": "m3",
+      "name": "家庭扩展",
+      "description": "认识蛋蛋，家庭完整",
+      "achievedAt": "2026-03-02",
+      "icon": "👨‍👩‍👦"
+    }
+  ],
+  "nextMilestones": [
+    {
+      "id": "m4",
+      "name": "第一次代码审查",
+      "description": "帮主人审查代码",
+      "target": "完成任务后解锁",
+      "icon": "🔍"
+    },
+    {
+      "id": "m5",
+      "name": "建立解决方案库",
+      "description": "docs/solutions/ 有 5 个文档",
+      "target": "积累中",
+      "icon": "📚"
+    }
+  ]
+}

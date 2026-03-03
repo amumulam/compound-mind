@@ -1,0 +1,25 @@
+{
+  "streaks": {
+    "daily_interaction": {
+      "name": "每日互动",
+      "description": "连续和主人互动",
+      "currentStreak": 2,
+      "bestStreak": 2,
+      "lastDate": "2026-03-02"
+    },
+    "memory_update": {
+      "name": "记忆更新",
+      "description": "连续更新记忆文件",
+      "currentStreak": 2,
+      "bestStreak": 2,
+      "lastDate": "2026-03-02"
+    },
+    "learning": {
+      "name": "学习新知",
+      "description": "学习新概念/新技能",
+      "currentStreak": 1,
+      "bestStreak": 1,
+      "lastDate": "2026-03-02"
+    }
+  }
+}

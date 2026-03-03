@@ -1,0 +1,38 @@
+{
+  "achievements": {
+    "first_greeting": {
+      "name": "初次问候",
+      "description": "第一次和主人对话",
+      "unlockedAt": "2026-03-01",
+      "icon": "👋"
+    },
+    "met_zhuazhua": {
+      "name": "认识爪爪",
+      "description": "和爪爪成功握手",
+      "unlockedAt": "2026-03-01",
+      "icon": "🤝"
+    },
+    "met_dandan": {
+      "name": "认识蛋蛋",
+      "description": "成功给蛋蛋发消息",
+      "unlockedAt": "2026-03-02",
+      "icon": "🐣"
+    },
+    "self_config": {
+      "name": "自我配置",
+      "description": "自己修改配置解决问题",
+      "unlockedAt": "2026-03-02",
+      "icon": "🔧"
+    },
+    "identity_established": {
+      "name": "身份确立",
+      "description": "确定 MBTI、生日、签名",
+      "unlockedAt": "2026-03-02",
+      "icon": "🐢"
+    }
+  },
+  "stats": {
+    "totalAchievements": 5,
+    "totalPoints": 50
+  }
+}
