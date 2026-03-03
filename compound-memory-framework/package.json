@@ -1,0 +1,40 @@
+{
+  "name": "compound-memory-framework",
+  "version": "1.0.0",
+  "description": "CE Plugin + Intelligent Memory fusion framework for OpenClaw agents",
+  "main": "lib/index.js",
+  "bin": {
+    "compound-memory-init": "./bin/compound-memory-init"
+  },
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "templates"
+  ],
+  "keywords": [
+    "openclaw",
+    "compound-engineering",
+    "intelligent-memory",
+    "ai-agent",
+    "memory-system"
+  ],
+  "author": "Baba 🐢",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclaw/compound-memory-framework"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "fs-extra": "^11.1.1",
+    "execa": "^8.0.1",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1"
+  }
+}
