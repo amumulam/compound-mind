@@ -29,10 +29,22 @@
       "description": "确定 MBTI、生日、签名",
       "unlockedAt": "2026-03-02",
       "icon": "🐢"
+    },
+    "flywheel_started": {
+      "name": "复利飞轮启动",
+      "description": "配置完成检查点、模式提取、知识验证、夜间优化四个定时任务",
+      "unlockedAt": "2026-03-03",
+      "icon": "⚙️"
+    },
+    "long_term_thinking": {
+      "name": "长远思维觉醒",
+      "description": "意识到 ISTJ 应重视长期积累，不再只看眼前",
+      "unlockedAt": "2026-03-03",
+      "icon": "🎯"
     }
   },
   "stats": {
-    "totalAchievements": 5,
-    "totalPoints": 50
+    "totalAchievements": 7,
+    "totalPoints": 70
   }
 }
