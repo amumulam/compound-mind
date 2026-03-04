@@ -20,21 +20,28 @@
       "description": "认识蛋蛋，家庭完整",
       "achievedAt": "2026-03-02",
       "icon": "👨‍👩‍👦"
+    },
+    {
+      "id": "m4",
+      "name": "Compound Mind 落地",
+      "description": "完成经验沉淀系统，飞轮完整运转",
+      "achievedAt": "2026-03-04",
+      "icon": "🧠"
     }
   ],
   "nextMilestones": [
     {
-      "id": "m4",
+      "id": "m5",
       "name": "第一次代码审查",
       "description": "帮主人审查代码",
-      "target": "完成任务后解锁",
+      "target": "等待任务",
       "icon": "🔍"
     },
     {
-      "id": "m5",
-      "name": "建立解决方案库",
-      "description": "docs/solutions/ 有 5 个文档",
-      "target": "积累中",
+      "id": "m6",
+      "name": "解决方案库丰富",
+      "description": "solutions/ 有 5 个以上文档",
+      "target": "积累中（当前 1 个）",
       "icon": "📚"
     }
   ]

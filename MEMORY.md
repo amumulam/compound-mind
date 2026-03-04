@@ -28,6 +28,14 @@
 
 ## 重要事件
 
+### 2026-03-04
+- **Compound 环节实现完成！** 补上了经验沉淀的产出层
+  - 创建解决方案模板 `life/archives/solutions/TEMPLATE.md`
+  - 创建索引文件 `life/archives/solutions/INDEX.md`
+  - 配置每天 04:00 的 Compound 提取 Cron 任务
+- 飞轮现在完整了：6 个定时任务全部就位
+- **检查点提取首次成功运行** ✅ 飞轮开始正常运转
+
 ### 2026-03-03
 - **复利飞轮启动！** 配置了 4 个 cron 定时任务：
   - 检查点提取（每 6 小时）
@@ -55,9 +63,37 @@
 - **复利思维**：今天建好的系统，以后每天都在运转
 - **技术细节**：定时任务用 OpenClaw 的 cron 功能，不是写 shell 脚本
 
+### 2026-03-04
+- **经验沉淀需要产出层**：只有存储（MEMORY.md）不够，还需要结构化方案（solutions/）和索引（INDEX.md）
+- **模板价值**：标准化格式便于检索和复用
+- **配置验证**：加配置前先查文档确认字段是否有效，不确定就问主人
+- **检测和提取分离**：心跳检测标记，Cron 提取沉淀，避免重复工作
+- **踩坑教训**：不要反复添加被 doctor 移除的配置字段；心跳间隔用命令而非配置文件
+
+### Compound Mind
+
+经验沉淀系统，每天自动从日志提取可复用的解决方案。
+
+- 模块：`life/projects/compound-mind/`
+- 输出：`life/archives/solutions/`
+- 索引：`life/archives/solutions/INDEX.md`
+
+已有方案：
+- [[2026-03-03-bun-proxy-timeout]] - bun 安装时代理超时
+
 ## 决策记录
 
 | 日期 | 决策 | 文件 |
 |------|------|------|
 | 2026-03-03 | 用 OpenClaw Cron 实现定时任务 | life/decisions/2026-03-03-use-cron-for-automation.md |
 | 2026-03-03 | 重视长期积累 | life/decisions/2026-03-03-long-term-thinking.md |
+| 2026-03-04 | 框架命名 Compound Mind | - |
+## 工程洁癖原则（主人要求）
+
+| 目录 | 用途 | 限制 |
+|------|------|------|
+| memory/ | 每日日志 | 只放 YYYY-MM-DD.md 格式 |
+| skills/ | 外部知识 | 不污染 workspace 顶层 |
+| solutions/ | 实践知识 | Compound 输出 |
+
+**核心原则**：要有工程品味和洁癖，目录职责清晰。EOF
