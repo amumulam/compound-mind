@@ -208,6 +208,50 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+---
+
+
+---
+
+## Compound Mind Rules
+
+### Todo Handling
+
+Do NOT use a standalone todos/ directory.
+
+- **Temporary todos** → Write to `memory/YYYY-MM-DD.md`
+- **Long-term/phase todos** → Use `/ce:plan` to create plans in `docs/plans/`
+
+### Directory Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| `memory/` | Daily logs (permanent) |
+| `docs/solutions/` | Solutions (`/ce:compound` output) |
+| `docs/plans/` | Plans (`/ce:plan` output) |
+| `docs/brainstorms/` | Brainstorms (`/ce:brainstorm` output) |
+| `life/decisions/` | Decision logs |
+| `life/motivation/` | Achievements/Milestones/Streaks |
+
+### Flywheel Tasks
+
+Automated tasks:
+
+| Task | Schedule | Purpose |
+|------|----------|---------|
+| Checkpoint Extraction | Every 6h | Extract key info from logs |
+| Compound Extraction | Daily 04:00 | Create reusable solutions |
+| Knowledge Validation | Sunday 02:30 | Detect stale/conflicts |
+| Nighttime Optimizer | Sunday 03:00 | System maintenance |
+
+---
+
+## Make It Yours
+
+This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+---
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
