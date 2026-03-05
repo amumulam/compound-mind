@@ -272,14 +272,15 @@ mkdir -p life/motivation
 [ ! -f "life/motivation/streaks.json" ] && echo '{}' > life/motivation/streaks.json
 
 # Create config file
-cat > compound-mind.config.json << 'CONFIGEOF'
+cat > compound-mind.config.json << CONFIGEOF
 {
   "version": "1.0.0",
   "name": "compound-mind",
   "description": "Compound Mind Framework - 让 AI Agent 拥有自我迭代的能力",
   "repository": "https://github.com/amumulam/compound-mind",
   "author": "Baba 🐢",
-  "license": "MIT"
+  "license": "MIT",
+  "cronModel": "$MODEL"
 }
 CONFIGEOF
 

@@ -251,15 +251,25 @@ fi
 echo -e "  ${GREEN}✓ Update available!${NC}"
 echo ""
 
-# Get current model from existing Cron tasks
-CURRENT_MODEL=$(openclaw cron list --json 2>/dev/null | grep -A5 '"name":"compound-mind-checkpoint"' | grep '"model"' | grep -o '"model":"[^"]*"' | cut -d'"' -f4 | head -1)
+# Get model from config file first
+if [ -f "$WORKSPACE/compound-mind.config.json" ]; then
+  CONFIG_MODEL=$(grep -o '"cronModel": *"[^"]*"' "$WORKSPACE/compound-mind.config.json" | cut -d'"' -f4)
+  if [ -n "$CONFIG_MODEL" ]; then
+    MODEL="$CONFIG_MODEL"
+    echo -e "  ${GREEN}✓ Model from config:${NC} ${MODEL}"
+  fi
+fi
 
-if [ -n "$CURRENT_MODEL" ]; then
-  MODEL="$CURRENT_MODEL"
-  echo -e "  ${GREEN}✓ Detected model:${NC} ${MODEL}"
-else
-  MODEL="bailian-coding-plan/glm-5"
-  echo -e "  ${YELLOW}⚠ Using default model:${NC} ${MODEL}"
+# Fallback: detect from existing Cron tasks
+if [ -z "$MODEL" ]; then
+  CURRENT_MODEL=$(openclaw cron list --json 2>/dev/null | grep -A5 '"name":"compound-mind-checkpoint"' | grep '"model"' | grep -o '"model":"[^"]*"' | cut -d'"' -f4 | head -1)
+  if [ -n "$CURRENT_MODEL" ]; then
+    MODEL="$CURRENT_MODEL"
+    echo -e "  ${GREEN}✓ Detected model:${NC} ${MODEL}"
+  else
+    MODEL="bailian-coding-plan/glm-5"
+    echo -e "  ${YELLOW}⚠ Using default model:${NC} ${MODEL}"
+  fi
 fi
 echo ""
 
