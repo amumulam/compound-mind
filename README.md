@@ -101,7 +101,7 @@ cd compound-mind
 
 当前版本：`1.0.0`
 
-版本信息存储在 `VERSION.json`：
+版本信息存储在 `compound-mind.config.json`：
 
 ```json
 {

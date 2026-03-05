@@ -113,7 +113,7 @@ select_option() {
 # ─────────────────────────────────────────────────────────────────────────────
 
 get_local_version() {
-  local version_file="$1/VERSION.json"
+  local version_file="$1/compound-mind.config.json"
   if [ -f "$version_file" ]; then
     grep -o '"version": *"[^"]*"' "$version_file" | cut -d'"' -f4
   else
@@ -122,7 +122,7 @@ get_local_version() {
 }
 
 get_remote_version() {
-  curl -s "${RAW_URL}/VERSION.json" 2>/dev/null | grep -o '"version": *"[^"]*"' | cut -d'"' -f4 || echo "0.0.0"
+  curl -s "${RAW_URL}/compound-mind.config.json" 2>/dev/null | grep -o '"version": *"[^"]*"' | cut -d'"' -f4 || echo "0.0.0"
 }
 
 compare_versions() {
@@ -308,9 +308,9 @@ echo ""
 
 cd "$WORKSPACE"
 
-# Step 1: Download latest VERSION.json
+# Step 1: Download latest config
 echo -e "  ${DIM}[1/4]${NC} Downloading latest version info..."
-curl -s "${RAW_URL}/VERSION.json" -o VERSION.json 2>/dev/null
+curl -s "${RAW_URL}/compound-mind.config.json" -o compound-mind.config.json 2>/dev/null
 echo -e "        ${GREEN}✓ Done${NC}"
 
 # Step 2: Ensure directory structure exists
@@ -424,7 +424,7 @@ echo -e "  ${BOLD}${GREEN}   ✓ Update Complete!${NC}"
 echo -e "  ${DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo -e "  ${BOLD}Updated:${NC}"
-echo -e "    ✅ VERSION.json → ${REMOTE_VERSION}"
+echo -e "    ✅ compound-mind.config.json → ${REMOTE_VERSION}"
 echo -e "    ✅ Directory structure"
 echo -e "    ✅ AGENTS.md rules"
 echo -e "    ✅ Cron tasks"
