@@ -300,7 +300,7 @@ if [ -f "$AGENTS_FILE" ]; then
 Do NOT use a standalone todos/ directory.
 
 - **Temporary todos** → Write to `memory/YYYY-MM-DD.md`
-- **Long-term/phase todos** → Use `/ce:plan` to create plans in `work/plans/`
+- **Long-term/phase todos** → Use `/ce:plan` to create plans in `docs/plans/`
 
 ### Directory Structure
 
