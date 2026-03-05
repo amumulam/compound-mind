@@ -345,6 +345,14 @@ fi
 # Step 4: Configure Cron tasks
 echo -e "  ${DIM}[4/4]${NC} Configuring Cron tasks..."
 
+# Remove existing compound-mind tasks to avoid duplicates
+for job_id in $(openclaw cron list --json 2>/dev/null | grep -o '"id":"[^"]*"' | cut -d'"' -f4); do
+  job_name=$(openclaw cron list --json 2>/dev/null | grep -B1 "\"id\":\"$job_id\"" | grep '"name"' | cut -d'"' -f4)
+  if [[ "$job_name" == "compound-mind-"* ]]; then
+    openclaw cron remove "$job_id" 2>/dev/null
+  fi
+done
+
 openclaw cron add --name "compound-mind-checkpoint" \
   --every 6h \
   --agent "$AGENT_ID" \

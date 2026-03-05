@@ -238,8 +238,16 @@ echo -e "  ${DIM}[4/4]${NC} Removing AGENTS.md rules..."
 
 if [ -f "AGENTS.md" ]; then
   if grep -q "Compound Mind Rules" "AGENTS.md"; then
-    # Remove everything from "## Compound Mind Rules" to the end of file or next major section
-    sed -i '/^## Compound Mind Rules/,$d' "AGENTS.md"
+    # Save content before Compound Mind Rules
+    awk '/^## Compound Mind Rules/{exit} {print}' "AGENTS.md" > "AGENTS.md.tmp"
+    
+    # Check if "## Make It Yours" exists in original file
+    if grep -q "## Make It Yours" "AGENTS.md"; then
+      # Append "## Make It Yours" and everything after it
+      awk '/^## Make It Yours/{found=1} found{print}' "AGENTS.md" >> "AGENTS.md.tmp"
+    fi
+    
+    mv "AGENTS.md.tmp" "AGENTS.md"
     echo -e "        ${GREEN}✓ Done${NC}"
   else
     echo -e "        ${DIM}Skipped (not found)${NC}"
