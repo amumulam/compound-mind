@@ -435,7 +435,7 @@ openclaw cron add --name "compound-mind-knowledge" \
   --cron "30 2 * * 0" \
   --agent "$AGENT_ID" \
   --model "$MODEL" \
-  --message "Knowledge validation: Check for stale/isolated/duplicate content."
+  --message "Knowledge validation: 1. Read MEMORY.md, life/decisions/, docs/solutions/, memory/*.md 2. Check for: stale content (>30 days old), isolated content (no references), duplicate content (similar entries) 3. Write findings to life/health-state.json under 'validation' key 4. Alert owner if critical issues found."
 
 openclaw cron add --name "compound-mind-optimizer" \
   --cron "0 3 * * 0" \
