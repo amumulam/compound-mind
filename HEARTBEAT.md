@@ -4,7 +4,55 @@
 
 每次心跳时按顺序检查：
 
-### 1. 检查点提取
+### 1. 框架健康检查
+
+<!-- COMPOUND_MIND_START -->
+检查 Compound Mind 框架运行状态：
+
+**Cron 任务状态检测**：
+- 检查 compound-mind-* 任务状态
+- 记录到 `life/health-state.json`
+- 异常条件：status=error 或超时未运行
+
+**MEMORY.md 更新检测**：
+- 检查最后更新时间
+- 超过 24h 未更新 → 提醒主人
+
+**目录结构检测**：
+- 检查 docs/solutions/, life/decisions/, memory/ 是否存在
+
+**目录规范检测（新增）**：
+- 检查是否有错误的目录：`plans/`, `solutions/`, `brainstorms/`
+- 如果存在，在心跳回复中警告："发现错误的目录结构，请移动到正确位置"
+- 错误位置 → 正确位置映射：
+  - `plans/` → `docs/plans/`
+  - `solutions/` → `docs/solutions/`
+  - `brainstorms/` → `docs/brainstorms/`
+
+**异常通知**：
+- 检测到异常时，在心跳回复中提及
+- 不在深夜通知（23:00-08:00）
+<!-- COMPOUND_MIND_END -->
+
+### 2. 观测日报检测
+
+检查是否需要生成观测日报：
+
+**检测逻辑**：
+- 检查 `life/observation-reports/YYYY-MM-DD.md` 是否存在
+- 不存在 → 生成观测日报
+- 存在 → 跳过
+
+**观测日报内容**：
+1. 飞轮运行状态（Cron 任务检查）
+2. 框架问题列表
+3. 优化建议
+4. 对标设计初衷
+5. 感悟与思考
+
+**生成时间**：建议每天 22:00-23:00
+
+### 3. 检查点提取
 
 读取 `memory/YYYY-MM-DD.md`（今天），提取：
 

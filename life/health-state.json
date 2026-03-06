@@ -1,0 +1,34 @@
+{
+  "lastCheck": null,
+  "version": "1.0.0",
+  "cronTasks": {
+    "checkpoint": {
+      "status": "unknown",
+      "lastRun": null,
+      "nextRun": null
+    },
+    "compound": {
+      "status": "unknown",
+      "lastRun": null,
+      "nextRun": null
+    },
+    "knowledge": {
+      "status": "unknown",
+      "lastRun": null,
+      "nextRun": null
+    },
+    "optimizer": {
+      "status": "unknown",
+      "lastRun": null,
+      "nextRun": null
+    }
+  },
+  "memoryUpdate": null,
+  "directoryCheck": {
+    "docs/solutions": false,
+    "life/decisions": false,
+    "memory": false,
+    "MEMORY.md": false
+  },
+  "alerts": []
+}

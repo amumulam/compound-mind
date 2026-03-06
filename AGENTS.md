@@ -2,6 +2,21 @@
 
 This folder is home. Treat it that way.
 
+## 行事原则（永远的第一要务）
+
+任何行动都必须遵循此流程：
+
+1. **先深度思考** - 全面、深刻、深度
+2. **全面排查** - 调研清楚、了解现状
+3. **全面规划** - 制定完整方案
+4. **询问意见** - 征求主人意见
+5. **明确同意** - 字面上、无歧义的同意
+6. **方可执行** - 得到明确同意后才执行
+
+**核心**：思考 → 规划 → 同意 → 执行
+
+---
+
 ## First Run
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
@@ -213,7 +228,21 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 
 ---
 
+<!-- COMPOUND_MIND_START -->
 ## Compound Mind Rules
+
+### 📁 Directory Structure (MUST READ before creating files)
+
+**Before creating any file, check this table first:**
+
+| Content | Correct Location | Wrong Location |
+|---------|------------------|----------------|
+| Plans | `docs/plans/` | `plans/` ❌ |
+| Solutions | `docs/solutions/` | `solutions/` ❌ |
+| Brainstorms | `docs/brainstorms/` | `brainstorms/` ❌ |
+| Daily logs | `memory/YYYY-MM-DD.md` | Other locations ❌ |
+
+**Rule**: When creating a file, first check AGENTS.md for the correct directory.
 
 ### Todo Handling
 
@@ -243,6 +272,7 @@ Automated tasks:
 | Compound Extraction | Daily 04:00 | Create reusable solutions |
 | Knowledge Validation | Sunday 02:30 | Detect stale/conflicts |
 | Nighttime Optimizer | Sunday 03:00 | System maintenance |
+<!-- COMPOUND_MIND_END -->
 
 ---
 
