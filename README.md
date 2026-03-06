@@ -107,9 +107,11 @@ cd compound-mind
 {
   "version": "1.0.0",
   "name": "compound-mind",
-  "repository": "https://github.com/amumulam/compound-mind"
+  "cronModel": "bailian-coding-plan/glm-5"
 }
 ```
+
+**修改模型**：编辑 `cronModel` 字段后，运行 `./update.sh` 同步到 Cron 任务。
 
 ---
 
