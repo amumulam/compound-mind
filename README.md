@@ -1,12 +1,232 @@
 # Compound Mind Framework
 
-> 复利心智：让 AI Agent 拥有自我迭代的能力
-
-乌龟签名：🐢
+[English](#english) | [中文](#中文)
 
 ---
 
-## 是什么
+<a name="english"></a>
+
+## English
+
+> Compound Mind: Enable AI Agents with self-iteration capabilities
+
+🐢
+
+---
+
+### What is it?
+
+Compound Mind is a framework designed for OpenClaw Agents, combining:
+
+- **Compound Engineering Plugin** — Workflow capabilities (/ce:plan, /ce:compound, etc.)
+- **ClawIntelligentMemory** — Memory capabilities (checkpoint extraction, knowledge validation)
+
+**Core Philosophy**: Restraint over excess, clarity over complexity.
+
+---
+
+### Core Capabilities
+
+#### Workflows (from CE Plugin)
+
+| Command | Purpose |
+|---------|---------|
+| `/ce:plan` | Create plans → docs/plans/ |
+| `/ce:brainstorm` | Brainstorming → docs/brainstorms/ |
+| `/ce:compound` | Capture solutions → docs/solutions/ |
+| `/ce:review` | Multi-perspective review |
+| `/lfg` | One-click full workflow |
+
+#### Memory System (Automatic)
+
+| Task | Schedule | Purpose |
+|------|----------|---------|
+| Checkpoint Extraction | Every 6h | Extract key info from logs → MEMORY.md |
+| Compound Extraction | Daily 04:00 | Create reusable solutions → docs/solutions/ |
+| Knowledge Validation | Sunday 02:30 | Detect stale/isolated/duplicate content |
+| Nighttime Optimizer | Sunday 03:00 | System maintenance |
+
+---
+
+### Installation
+
+```bash
+git clone https://github.com/amumulam/compound-mind.git
+cd compound-mind
+./install.sh
+```
+
+Interactive interface will guide you to:
+1. Select OpenClaw installation directory
+2. Select workspace to install
+3. Select model (read from openclaw.json)
+
+---
+
+### Update
+
+```bash
+cd compound-mind
+./update.sh
+```
+
+Update script will:
+1. Check remote repository for latest version
+2. Compare with local version
+3. Update Cron task payload
+4. Sync directory structure
+5. Download latest config file
+
+**Preserved content**:
+- memory/
+- MEMORY.md
+- docs/solutions/
+- life/decisions/
+- life/motivation/
+
+---
+
+### Uninstall
+
+```bash
+cd compound-mind
+./uninstall.sh
+```
+
+Uninstall script will:
+1. Remove Cron tasks (compound-mind-*)
+2. Remove docs/
+3. Remove life/
+4. Remove Compound Mind rules from AGENTS.md
+
+**Preserved content**:
+- memory/
+- MEMORY.md
+
+---
+
+### Version Management
+
+Current version: `1.0.0`
+
+Version info stored in `compound-mind.config.json`:
+
+```json
+{
+  "version": "1.0.0",
+  "name": "compound-mind",
+  "cronModel": "bailian-coding-plan/glm-5"
+}
+```
+
+**Change model**: Edit `cronModel` field, then run `./update.sh` to sync to Cron tasks.
+
+---
+
+### Directory Structure
+
+```
+workspace/
+├── AGENTS.md              # Operation manual (framework appends rules)
+├── IDENTITY.md            # Identity + Engineering principles
+├── SOUL.md                # Values
+├── USER.md                # Owner info
+├── TOOLS.md               # Specific configs
+├── HEARTBEAT.md           # Heartbeat tasks
+├── MEMORY.md              # Long-term memory (no auto-truncation)
+├── memory/                # Daily logs (permanent)
+├── docs/                  # CE Plugin output
+│   ├── solutions/         # Practical knowledge (/ce:compound output)
+│   ├── plans/             # Plan docs (/ce:plan output)
+│   └── brainstorms/       # Brainstorm docs (/ce:brainstorm output)
+├── life/                  # Agent maintained
+│   ├── decisions/         # Decision logs
+│   └── motivation/        # Achievements/Milestones/Streaks
+└── work/                  # Working directory (optional)
+```
+
+---
+
+### Directory Responsibilities
+
+| Directory | Purpose | Nature |
+|-----------|---------|--------|
+| `docs/` | Work output | Task-oriented, can be deleted/rebuilt |
+| `life/` | Life journey | Growth-oriented, long-term retention |
+| `memory/` | Daily logs | Raw records, permanent retention |
+
+---
+
+### Engineering Principles
+
+**Core Philosophy**: Restraint over excess, clarity over complexity.
+
+#### Priority Principles
+
+1. **Don't reinvent the wheel** — Use existing solutions, don't design custom ones
+2. **Don't add meaningless work** — Every line of code must have value
+3. **Confirm before implementing** — Ask if uncertain
+
+#### Specific Principles
+
+1. **Separation of concerns** — One module, one purpose
+2. **Minimal intervention** — Don't change what doesn't need changing
+3. **Avoid premature optimization** — Don't design solutions for non-existent problems
+4. **Respect autonomy** — MEMORY.md is the agent's own file, no auto-truncation
+5. **Follow original design intent** — Don't change existing boundaries for "better"
+
+---
+
+### Todo Handling
+
+**Do NOT use a standalone todos/ directory.**
+
+| Type | Location |
+|------|----------|
+| Temporary todos | memory/YYYY-MM-DD.md |
+| Long-term/phase todos | docs/plans/ (use /ce:plan) |
+
+---
+
+### Flywheel Metrics
+
+| Metric | Target |
+|--------|--------|
+| Solutions count | +2 per week |
+| MEMORY.md coverage | >80% |
+| Checkpoint extraction rate | >90% |
+| Decision traceability | 100% |
+
+---
+
+### Sources
+
+- [Compound Engineering Plugin](https://github.com/EveryInc/compound-engineering-plugin)
+- [ClawIntelligentMemory](https://github.com/denda188/ClawIntelligentMemory)
+
+---
+
+### License
+
+MIT
+
+---
+
+🐢 Let the flywheel spin!
+
+---
+
+<a name="中文"></a>
+
+## 中文
+
+> 复利心智：让 AI Agent 拥有自我迭代的能力
+
+🐢
+
+---
+
+### 是什么
 
 Compound Mind 是一个为 OpenClaw Agent 设计的框架，融合了：
 
@@ -17,9 +237,9 @@ Compound Mind 是一个为 OpenClaw Agent 设计的框架，融合了：
 
 ---
 
-## 核心能力
+### 核心能力
 
-### 工作流（来自 CE Plugin）
+#### 工作流（来自 CE Plugin）
 
 | 命令 | 用途 |
 |------|------|
@@ -29,7 +249,7 @@ Compound Mind 是一个为 OpenClaw Agent 设计的框架，融合了：
 | `/ce:review` | 多视角审核 |
 | `/lfg` | 一键全流程 |
 
-### 记忆系统（自动运转）
+#### 记忆系统（自动运转）
 
 | 任务 | 频率 | 作用 |
 |------|------|------|
@@ -40,7 +260,7 @@ Compound Mind 是一个为 OpenClaw Agent 设计的框架，融合了：
 
 ---
 
-## 安装
+### 安装
 
 ```bash
 git clone https://github.com/amumulam/compound-mind.git
@@ -55,7 +275,7 @@ cd compound-mind
 
 ---
 
-## 更新
+### 更新
 
 ```bash
 cd compound-mind
@@ -67,7 +287,7 @@ cd compound-mind
 2. 对比本地版本
 3. 更新 Cron 任务 payload
 4. 同步目录结构
-5. 下载最新 VERSION.json
+5. 下载最新配置文件
 
 **保留内容**：
 - memory/
@@ -78,7 +298,7 @@ cd compound-mind
 
 ---
 
-## 卸载
+### 卸载
 
 ```bash
 cd compound-mind
@@ -97,7 +317,7 @@ cd compound-mind
 
 ---
 
-## 版本管理
+### 版本管理
 
 当前版本：`1.0.0`
 
@@ -115,7 +335,7 @@ cd compound-mind
 
 ---
 
-## 目录结构
+### 目录结构
 
 ```
 workspace/
@@ -139,7 +359,7 @@ workspace/
 
 ---
 
-## 目录职责
+### 目录职责
 
 | 目录 | 职责 | 性质 |
 |------|------|------|
@@ -149,17 +369,17 @@ workspace/
 
 ---
 
-## 工程品味原则
+### 工程品味原则
 
 **核心理念**：克制优于过度，清晰优于复杂。
 
-### 优先原则
+#### 优先原则
 
 1. **不要重新造轮子** — 依赖已有方案，不自己设计
 2. **不要添加没有意义的工作量** — 每一行代码都要有价值
 3. **先确定对了再去做** — 不确定就先问
 
-### 具体原则
+#### 具体原则
 
 1. **职责分离** — 一个模块只做一件事
 2. **最小干预** — 能不动的就不动
@@ -169,7 +389,7 @@ workspace/
 
 ---
 
-## Todo 处理规范
+### Todo 处理规范
 
 **不使用独立的 todos/ 目录。**
 
@@ -180,7 +400,7 @@ workspace/
 
 ---
 
-## 飞轮度量
+### 飞轮度量
 
 | 指标 | 目标 |
 |------|------|
@@ -191,15 +411,14 @@ workspace/
 
 ---
 
-## 来源
+### 来源
 
 - [Compound Engineering Plugin](https://github.com/EveryInc/compound-engineering-plugin)
 - [ClawIntelligentMemory](https://github.com/denda188/ClawIntelligentMemory)
-- [爪爪的融合博文](https://amumulam.github.io/zhuazhua-and-friends-blog/blog/compound-engineering-intelligent-memory-fusion)
 
 ---
 
-## 许可证
+### 许可证
 
 MIT
 
