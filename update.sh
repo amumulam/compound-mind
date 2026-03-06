@@ -386,6 +386,52 @@ EOF
   fi
 fi
 
+# Step 3.5: Update HEARTBEAT.md
+echo -e "  ${DIM}[3.5/4]${NC} Updating HEARTBEAT.md..."
+
+HEARTBEAT_FILE="$WORKSPACE/HEARTBEAT.md"
+
+if [ -f "$HEARTBEAT_FILE" ]; then
+  # Remove old Compound Mind section
+  if grep -q "COMPOUND_MIND_START" "$HEARTBEAT_FILE"; then
+    sed -i '/<!-- COMPOUND_MIND_START -->/,/<!-- COMPOUND_MIND_END -->/d' "$HEARTBEAT_FILE"
+  fi
+  
+  # Append new Compound Mind section
+  cat >> "$HEARTBEAT_FILE" << 'EOF'
+
+---
+
+<!-- COMPOUND_MIND_START -->
+### 框架健康检查
+
+检查 Compound Mind 框架运行状态：
+
+**Cron 任务状态检测**：
+- 检查 compound-mind-* 任务状态
+- 记录到 `life/health-state.json`
+- 异常条件：status=error 或超时未运行
+
+**MEMORY.md 更新检测**：
+- 检查最后更新时间
+- 超过 24h 未更新 → 提醒主人
+
+**目录结构检测**：
+- 检查 docs/solutions/, life/decisions/, memory/ 是否存在
+
+**异常通知**：
+- 检测到异常时，在心跳回复中提及
+- 不在深夜通知（23:00-08:00）
+
+<!-- COMPOUND_MIND_END -->
+EOF
+  echo -e "        ${GREEN}✓ Done${NC}"
+else
+  # File doesn't exist, create from template
+  curl -s "${RAW_URL}/templates/HEARTBEAT.md.tmpl" -o "$HEARTBEAT_FILE" 2>/dev/null
+  echo -e "        ${GREEN}✓ Created${NC}"
+fi
+
 # Step 4: Update Cron tasks
 echo -e "  ${DIM}[4/4]${NC} Updating Cron tasks..."
 
