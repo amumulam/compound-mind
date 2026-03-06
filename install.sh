@@ -270,6 +270,26 @@ mkdir -p life/motivation
 [ ! -f "life/motivation/achievements.json" ] && echo '{}' > life/motivation/achievements.json
 [ ! -f "life/motivation/milestones.json" ] && echo '{"milestones": [], "nextMilestones": []}' > life/motivation/milestones.json
 [ ! -f "life/motivation/streaks.json" ] && echo '{}' > life/motivation/streaks.json
+[ ! -f "life/health-state.json" ] && cat > life/health-state.json << 'HEALTHSTATEEOF'
+{
+  "lastCheck": null,
+  "version": "1.0.0",
+  "cronTasks": {
+    "checkpoint": { "status": "unknown", "lastRun": null, "nextRun": null },
+    "compound": { "status": "unknown", "lastRun": null, "nextRun": null },
+    "knowledge": { "status": "unknown", "lastRun": null, "nextRun": null },
+    "optimizer": { "status": "unknown", "lastRun": null, "nextRun": null }
+  },
+  "memoryUpdate": null,
+  "directoryCheck": {
+    "docs/solutions": false,
+    "life/decisions": false,
+    "memory": false,
+    "MEMORY.md": false
+  },
+  "alerts": []
+}
+HEALTHSTATEEOF
 
 # Create config file
 cat > compound-mind.config.json << CONFIGEOF
