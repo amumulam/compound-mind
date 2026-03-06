@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-03-07
+
+### Added
+
+- Directory structure enforcement mechanism
+  - Added 📁 Directory Structure table in AGENTS.md (MUST READ before creating files)
+  - Wrong Location indicators (❌) for common mistakes
+  - Rule reminder: "When creating a file, first check AGENTS.md for the correct directory"
+- Directory structure detection in HEARTBEAT.md
+  - Check for wrong directories: `plans/`, `solutions/`, `brainstorms/`
+  - Warning message with correct location mapping
+- Marker mechanism for AGENTS.md
+  - `<!-- COMPOUND_MIND_START/END -->` markers
+  - Safe partial updates without overwriting user content
+
+### Changed
+
+- All scripts (install.sh, update.sh, uninstall.sh) now use marker mechanism
+- Consistent behavior across AGENTS.md and HEARTBEAT.md updates
+
 ## [1.2.1] - 2026-03-06
 
 ### Added

@@ -308,12 +308,26 @@ echo -e "  ${DIM}[2/4]${NC} Appending rules to AGENTS.md..."
 AGENTS_FILE="$WORKSPACE/AGENTS.md"
 
 if [ -f "$AGENTS_FILE" ]; then
-  if ! grep -q "Compound Mind Rules" "$AGENTS_FILE"; then
+  if ! grep -q "COMPOUND_MIND_START" "$AGENTS_FILE"; then
     cat >> "$AGENTS_FILE" << 'EOF'
 
 ---
 
+<!-- COMPOUND_MIND_START -->
 ## Compound Mind Rules
+
+### 📁 Directory Structure (MUST READ before creating files)
+
+**Before creating any file, check this table first:**
+
+| Content | Correct Location | Wrong Location |
+|---------|------------------|----------------|
+| Plans | `docs/plans/` | `plans/` ❌ |
+| Solutions | `docs/solutions/` | `solutions/` ❌ |
+| Brainstorms | `docs/brainstorms/` | `brainstorms/` ❌ |
+| Daily logs | `memory/YYYY-MM-DD.md` | Other locations ❌ |
+
+**Rule**: When creating a file, first check AGENTS.md for the correct directory.
 
 ### Todo Handling
 
@@ -343,10 +357,11 @@ Automated tasks:
 | Compound Extraction | Daily 04:00 | Create reusable solutions |
 | Knowledge Validation | Sunday 02:30 | Detect stale/conflicts |
 | Nighttime Optimizer | Sunday 03:00 | System maintenance |
+<!-- COMPOUND_MIND_END -->
 EOF
     echo -e "        ${GREEN}✓ Done${NC}"
   else
-    echo -e "        ${DIM}Skipped (already exists)${NC}"
+    echo -e "        ${DIM}Skipped (marker exists)${NC}"
   fi
 fi
 
@@ -379,6 +394,14 @@ if [ -f "$HEARTBEAT_FILE" ]; then
 
 **目录结构检测**：
 - 检查 docs/solutions/, life/decisions/, memory/ 是否存在
+
+**目录规范检测**：
+- 检查是否有错误的目录：`plans/`, `solutions/`, `brainstorms/`
+- 如果存在，在心跳回复中警告："发现错误的目录结构，请移动到正确位置"
+- 错误位置 → 正确位置映射：
+  - `plans/` → `docs/plans/`
+  - `solutions/` → `docs/solutions/`
+  - `brainstorms/` → `docs/brainstorms/`
 
 **异常通知**：
 - 检测到异常时，在心跳回复中提及

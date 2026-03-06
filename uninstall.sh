@@ -229,28 +229,31 @@ rm -rf docs/
 echo -e "        ${GREEN}✓ Done${NC}"
 
 # Step 3: Remove life/ directory
-echo -e "  ${DIM}[3/4]${NC} Removing life/ directory..."
+echo -e "  ${DIM}[3/5]${NC} Removing life/ directory..."
 rm -rf life/
 echo -e "        ${GREEN}✓ Done${NC}"
 
 # Step 4: Remove AGENTS.md rules
-echo -e "  ${DIM}[4/4]${NC} Removing AGENTS.md rules..."
+echo -e "  ${DIM}[4/5]${NC} Removing AGENTS.md rules..."
 
 if [ -f "AGENTS.md" ]; then
-  if grep -q "Compound Mind Rules" "AGENTS.md"; then
-    # Save content before Compound Mind Rules
-    awk '/^## Compound Mind Rules/{exit} {print}' "AGENTS.md" > "AGENTS.md.tmp"
-    
-    # Check if "## Make It Yours" exists in original file
-    if grep -q "## Make It Yours" "AGENTS.md"; then
-      # Append "## Make It Yours" and everything after it
-      awk '/^## Make It Yours/{found=1} found{print}' "AGENTS.md" >> "AGENTS.md.tmp"
-    fi
-    
-    mv "AGENTS.md.tmp" "AGENTS.md"
+  if grep -q "COMPOUND_MIND_START" "AGENTS.md"; then
+    sed -i '/<!-- COMPOUND_MIND_START -->/,/<!-- COMPOUND_MIND_END -->/d' "AGENTS.md"
     echo -e "        ${GREEN}✓ Done${NC}"
   else
-    echo -e "        ${DIM}Skipped (not found)${NC}"
+    echo -e "        ${DIM}Skipped (marker not found)${NC}"
+  fi
+fi
+
+# Step 4.5: Remove HEARTBEAT.md rules
+echo -e "  ${DIM}[4.5/5]${NC} Removing HEARTBEAT.md rules..."
+
+if [ -f "HEARTBEAT.md" ]; then
+  if grep -q "COMPOUND_MIND_START" "HEARTBEAT.md"; then
+    sed -i '/<!-- COMPOUND_MIND_START -->/,/<!-- COMPOUND_MIND_END -->/d' "HEARTBEAT.md"
+    echo -e "        ${GREEN}✓ Done${NC}"
+  else
+    echo -e "        ${DIM}Skipped (marker not found)${NC}"
   fi
 fi
 
@@ -268,6 +271,7 @@ echo -e "    ✅ Cron tasks"
 echo -e "    ✅ docs/ directory"
 echo -e "    ✅ life/ directory"
 echo -e "    ✅ AGENTS.md rules"
+echo -e "    ✅ HEARTBEAT.md rules"
 echo ""
 echo -e "  ${BOLD}Kept:${NC}"
 echo -e "    📁 memory/"
