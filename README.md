@@ -101,7 +101,6 @@ workspace/
 ├── life/                        # Agent maintained
 │   ├── decisions/               # Decision logs
 │   └── motivation/              # Achievements/Milestones/Streaks
-└── work/                        # Working directory (optional)
 ```
 
 ---

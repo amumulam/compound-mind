@@ -8,7 +8,7 @@
 
 ---
 
-### 快速开始
+## 快速开始
 
 ```bash
 git clone https://github.com/amumulam/compound-mind.git
@@ -20,9 +20,9 @@ cd compound-mind
 
 ---
 
-### 操作指南
+## 操作指南
 
-#### 更新 Compound Mind
+### 更新 Compound Mind
 
 ```bash
 cd compound-mind
@@ -35,7 +35,7 @@ cd compound-mind
 
 ---
 
-#### 卸载 Compound Mind
+### 卸载 Compound Mind
 
 ```bash
 cd compound-mind
@@ -46,7 +46,7 @@ cd compound-mind
 
 ---
 
-#### 更改 Cron 模型
+### 更改 Cron 模型
 
 1. 编辑 `compound-mind.config.json`：
 
@@ -62,7 +62,7 @@ cd compound-mind
 
 ---
 
-#### 创建方案
+### 创建方案
 
 ```
 /ce:compound
@@ -72,9 +72,9 @@ cd compound-mind
 
 ---
 
-### 参考文档
+## 参考文档
 
-#### 配置文件
+### 配置文件
 
 `compound-mind.config.json`：
 
@@ -86,7 +86,7 @@ cd compound-mind
 
 ---
 
-#### 目录结构
+### 目录结构
 
 ```
 workspace/
@@ -101,12 +101,11 @@ workspace/
 ├── life/                        # Agent 维护
 │   ├── decisions/               # 决策记录
 │   └── motivation/              # 成就/里程碑/连胜
-└── work/                        # 工作目录（可选）
 ```
 
 ---
 
-#### Cron 任务
+### Cron 任务
 
 | 任务 | 时间 | 目的 |
 |------|------|------|
@@ -117,7 +116,7 @@ workspace/
 
 ---
 
-#### CE Plugin 命令
+### CE Plugin 命令
 
 | 命令 | 输出 |
 |------|------|
@@ -129,9 +128,9 @@ workspace/
 
 ---
 
-### 解释说明
+## 解释说明
 
-#### 什么是 Compound Mind？
+### 什么是 Compound Mind？
 
 一个让 AI Agent 积累经验、自我迭代的框架：
 
@@ -142,7 +141,7 @@ workspace/
 
 ---
 
-#### 核心理念
+### 核心理念
 
 **克制优于过度，清晰优于复杂。**
 
@@ -154,7 +153,7 @@ workspace/
 
 ---
 
-#### 飞轮如何工作
+### 飞轮如何工作
 
 ```
 每日日志 → 检查点 → MEMORY.md
@@ -172,14 +171,14 @@ workspace/
 
 ---
 
-### 来源
+## 来源
 
 - [Compound Engineering Plugin](https://github.com/EveryInc/compound-engineering-plugin)
 - [ClawIntelligentMemory](https://github.com/denda188/ClawIntelligentMemory)
 
 ---
 
-### 许可证
+## 许可证
 
 MIT
 
