@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-03-07
+
+### Added
+
+- Content compliance check mechanism
+  - 📋 Content Types table in AGENTS.md (what content goes where)
+  - Check if long-term tasks in MEMORY.md have corresponding plan files in `docs/plans/`
+  - Alert when content is written to wrong location
+- Workspace architecture audit (once per day)
+  - Compare workspace structure with Compound Mind standard architecture
+  - Discover content not in standard architecture
+  - Suggest moving or deleting redundant content
+
+### Changed
+
+- Changed HEARTBEAT.md content to English for consistency
+- Updated install.sh with new Content Types table
+- Updated templates/HEARTBEAT.md.tmpl with new checks
+
 ## [1.3.0] - 2026-03-07
 
 ### Added

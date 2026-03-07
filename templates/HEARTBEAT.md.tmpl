@@ -5,51 +5,106 @@
 每次心跳时按顺序检查：
 
 <!-- COMPOUND_MIND_START -->
-### 1. 框架健康检查
+### 1. Framework Health Check
 
-检查 Compound Mind 框架运行状态：
+Check Compound Mind framework running status:
 
-**Cron 任务状态检测**：
-- 检查 compound-mind-* 任务状态
-- 记录到 `life/health-state.json`
-- 异常条件：status=error 或超时未运行
+**Cron Task Status Detection**:
+- Check compound-mind-* task status
+- Record to `life/health-state.json`
+- Alert condition: status=error or timeout
 
-**MEMORY.md 更新检测**：
-- 检查最后更新时间
-- 超过 24h 未更新 → 提醒主人
+**MEMORY.md Update Detection**:
+- Check last update time
+- Over 24h without update → Alert owner
 
-**目录结构检测**：
-- 检查 docs/solutions/, life/decisions/, memory/ 是否存在
+**Directory Structure Detection**:
+- Check if docs/solutions/, life/decisions/, memory/ exist
 
-**异常通知**：
-- 检测到异常时，在心跳回复中提及
-- 不在深夜通知（23:00-08:00）
+**Directory Compliance Detection**:
+- Check for wrong directories: `plans/`, `solutions/`, `brainstorms/`
+- If found, warn: "Found incorrect directory structure, please move to correct location"
+- Wrong → Correct mapping:
+  - `plans/` → `docs/plans/`
+  - `solutions/` → `docs/solutions/`
+  - `brainstorms/` → `docs/brainstorms/`
 
+**Exception Notification**:
+- Alert when exceptions detected
+- No alerts during late night (23:00-08:00)
 <!-- COMPOUND_MIND_END -->
 
-### 2. 检查点提取
+### 2. Checkpoint Extraction
 
-读取 `memory/YYYY-MM-DD.md`（今天），提取：
+Read `memory/YYYY-MM-DD.md` (today), extract:
 
-**决策类** → 记录到 `life/decisions/` 和 MEMORY.md
-- 关键词：决定、选择、确认
+**Decisions** → Record to `life/decisions/` and MEMORY.md
+- Keywords: 决定、选择、确认
 
-**学习类** → 记录到 MEMORY.md
-- 关键词：学会、理解、发现、意识到
+**Learning** → Record to MEMORY.md
+- Keywords: 学会、理解、发现、意识到
 
-**重要事件** → 记录到 MEMORY.md
-- 关键词：认识、完成、解锁、里程碑
+**Important Events** → Record to MEMORY.md
+- Keywords: 认识、完成、解锁、里程碑
 
-**成就类** → 更新 `life/motivation/achievements.json`
-- 关键词：成就、首次、成功
+**Achievements** → Update `life/motivation/achievements.json`
+- Keywords: 成就、首次、成功
 
-### 3. 检查频率
+### 3. Content Compliance Check
 
-- 检查点提取：每次心跳
-- 模式提取：每周日
-- 知识验证：每周日
-- 夜间优化：每周日
+**Long-term tasks missing plan files**:
+- Check if MEMORY.md has a "长期任务" (Long-term Tasks) section
+- If yes, check if `docs/plans/` has corresponding plan files
+- If missing → Alert: "Found long-term task without plan file, please create in docs/plans/"
+
+**Content type check**:
+- Check if content that should go to `docs/plans/` was written elsewhere
+- Check if decisions that should go to `life/decisions/` were missed
+
+### 4. Workspace Architecture Audit (once per day)
+
+**Goal**: Discover content that doesn't match Compound Mind architecture
+
+**Compound Mind Standard Architecture**:
+```
+workspace/
+├── memory/           # Daily logs
+├── docs/
+│   ├── plans/        # Project plans
+│   ├── solutions/    # Solutions
+│   └── brainstorms/  # Brainstorms
+├── life/
+│   ├── decisions/    # Decision logs
+│   ├── motivation/   # Achievements/Milestones/Streaks
+│   └── observation-reports/  # Observation reports
+├── skills/           # External knowledge
+├── AGENTS.md
+├── HEARTBEAT.md
+├── MEMORY.md
+├── SOUL.md
+├── IDENTITY.md
+├── USER.md
+└── TOOLS.md
+```
+
+**Audit Steps**:
+1. List all files and directories at workspace root
+2. Compare with standard architecture
+3. Find content not in standard architecture → Alert if needs moving or deletion
+4. Find redundant directories → Suggest merging or deletion
+
+### 5. Check Frequency
+
+| Task | Frequency | Time |
+|------|-----------|------|
+| Framework health check | Every heartbeat | - |
+| Checkpoint extraction | Every heartbeat | - |
+| Content compliance check | Every heartbeat | - |
+| Workspace architecture audit | Once per day | - |
+| Compound extraction | Daily | 04:00 |
+| Knowledge validation | Sunday | 02:30 |
+| Nighttime optimizer | Sunday | 03:00 |
 
 ---
 
-如果以上任务都已完成或无需处理，回复 HEARTBEAT_OK。
+If all tasks are completed or nothing needs attention, reply HEARTBEAT_OK.

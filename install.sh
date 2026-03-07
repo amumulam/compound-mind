@@ -329,6 +329,22 @@ if [ -f "$AGENTS_FILE" ]; then
 
 **Rule**: When creating a file, first check AGENTS.md for the correct directory.
 
+### 📋 Content Types (MUST follow)
+
+**What content goes where:**
+
+| Content Type | Must Write To | Why |
+|--------------|---------------|-----|
+| Long-term tasks/projects | `docs/plans/*.md` | Need progress tracking |
+| Daily logs | `memory/YYYY-MM-DD.md` | Raw records |
+| Long-term memory | `MEMORY.md` | Curated memories |
+| Decision logs | `life/decisions/*.md` | Traceable |
+| Solutions | `docs/solutions/*.md` | Reusable |
+
+**Important**:
+- After declaring "长期任务" in MEMORY.md, **must** create corresponding plan file in `docs/plans/`
+- Heartbeat will check if long-term tasks have corresponding plan files
+
 ### Todo Handling
 
 Do NOT use a standalone todos/ directory.
@@ -379,34 +395,33 @@ if [ -f "$HEARTBEAT_FILE" ]; then
 ---
 
 <!-- COMPOUND_MIND_START -->
-### 框架健康检查
+### Framework Health Check
 
-检查 Compound Mind 框架运行状态：
+Check Compound Mind framework running status:
 
-**Cron 任务状态检测**：
-- 检查 compound-mind-* 任务状态
-- 记录到 `life/health-state.json`
-- 异常条件：status=error 或超时未运行
+**Cron Task Status Detection**:
+- Check compound-mind-* task status
+- Record to `life/health-state.json`
+- Alert condition: status=error or timeout
 
-**MEMORY.md 更新检测**：
-- 检查最后更新时间
-- 超过 24h 未更新 → 提醒主人
+**MEMORY.md Update Detection**:
+- Check last update time
+- Over 24h without update → Alert owner
 
-**目录结构检测**：
-- 检查 docs/solutions/, life/decisions/, memory/ 是否存在
+**Directory Structure Detection**:
+- Check if docs/solutions/, life/decisions/, memory/ exist
 
-**目录规范检测**：
-- 检查是否有错误的目录：`plans/`, `solutions/`, `brainstorms/`
-- 如果存在，在心跳回复中警告："发现错误的目录结构，请移动到正确位置"
-- 错误位置 → 正确位置映射：
+**Directory Compliance Detection**:
+- Check for wrong directories: `plans/`, `solutions/`, `brainstorms/`
+- If found, warn: "Found incorrect directory structure, please move to correct location"
+- Wrong → Correct mapping:
   - `plans/` → `docs/plans/`
   - `solutions/` → `docs/solutions/`
   - `brainstorms/` → `docs/brainstorms/`
 
-**异常通知**：
-- 检测到异常时，在心跳回复中提及
-- 不在深夜通知（23:00-08:00）
-
+**Exception Notification**:
+- Alert when exceptions detected
+- No alerts during late night (23:00-08:00)
 <!-- COMPOUND_MIND_END -->
 EOF
     echo -e "        ${GREEN}✓ Done${NC}"
