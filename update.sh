@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Compound Mind Framework - Update Script
+# Compound Mind Framework - Update Script (v1.5.0 - 增量更新)
 # Usage: ./update.sh
 
 # Colors
@@ -49,7 +49,7 @@ select_option() {
     if [[ "$key" == $'\x1b' ]]; then
       read -rsn2 -t 0.1 key
       case "$key" in
-        '[A')
+        '[A]')
           if [ $selected -gt 0 ]; then
             tput cuu $count
             selected=$((selected - 1))
@@ -62,7 +62,7 @@ select_option() {
             done
           fi
           ;;
-        '[B')
+        '[B]')
           if [ $selected -lt $((count - 1)) ]; then
             tput cuu $count
             selected=$((selected + 1))
@@ -162,7 +162,7 @@ compare_versions() {
 clear
 echo ""
 echo -e "  ${DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "  ${BOLD}${BLUE}   🔄 Compound Mind Framework Updater${NC}"
+echo -e "  ${BOLD}${BLUE}   🔄 Compound Mind Framework Updater (v1.5.0)${NC}"
 echo -e "  ${DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo -e "  ${DIM}Use ↑↓ to navigate, Enter to select${NC}"
@@ -287,9 +287,10 @@ echo -e "  Model:     ${GREEN}${MODEL}${NC}"
 echo -e "  Version:   ${YELLOW}${LOCAL_VERSION}${NC} → ${GREEN}${REMOTE_VERSION}${NC}"
 echo ""
 echo -e "  ${DIM}Will be UPDATED:${NC}"
-echo -e "    • Cron tasks payload"
+echo -e "    • Cron tasks payload (incremental update)"
 echo -e "    • Directory structure (new directories added)"
 echo -e "    • AGENTS.md rules (if new rules available)"
+echo -e "    • HEARTBEAT.md (if new checks available)"
 echo ""
 echo -e "  ${DIM}Will be PRESERVED:${NC}"
 echo -e "    • memory/"
@@ -297,6 +298,7 @@ echo -e "    • MEMORY.md"
 echo -e "    • docs/solutions/"
 echo -e "    • life/decisions/"
 echo -e "    • life/motivation/"
+echo -e "    • Existing Cron tasks and their history"
 echo ""
 echo -e "  ${YELLOW}Continue with update? (y/n)${NC}"
 echo -n "  ➜ "
@@ -318,6 +320,33 @@ echo ""
 
 cd "$WORKSPACE"
 
+# Step 0.5: Create backup
+echo -e "  ${DIM}[0.5/4]${NC} Creating backup..."
+
+BACKUP_TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+BACKUP_DIR="$WORKSPACE/backups/$BACKUP_TIMESTAMP"
+mkdir -p "$BACKUP_DIR"
+
+# Backup key files
+cp "$WORKSPACE/compound-mind.config.json" "$BACKUP_DIR/" 2>/dev/null
+cp "$WORKSPACE/life/health-state.json" "$BACKUP_DIR/" 2>/dev/null
+cp "$WORKSPACE/AGENTS.md" "$BACKUP_DIR/" 2>/dev/null
+cp "$WORKSPACE/HEARTBEAT.md" "$BACKUP_DIR/" 2>/dev/null
+
+echo -e "        ${GREEN}✓ Backup created: backups/${BACKUP_TIMESTAMP}${NC}"
+
+# Step 0: Run version migration if needed
+echo -e "  ${DIM}[0/4]${NC} Checking for version migration..."
+
+MIGRATION_SCRIPT="$SCRIPT_DIR/migrations/${LOCAL_VERSION}-to-${REMOTE_VERSION}.sh"
+if [ -f "$MIGRATION_SCRIPT" ]; then
+  echo -e "        ${BLUE}Running migration: ${LOCAL_VERSION} → ${REMOTE_VERSION}${NC}"
+  bash "$MIGRATION_SCRIPT" "$WORKSPACE"
+  echo -e "        ${GREEN}✓ Migration complete${NC}"
+else
+  echo -e "        ${DIM}No migration needed${NC}"
+fi
+
 # Step 1: Download latest config
 echo -e "  ${DIM}[1/4]${NC} Downloading latest version info..."
 curl -s "${RAW_URL}/compound-mind.config.json" -o compound-mind.config.json 2>/dev/null
@@ -331,6 +360,7 @@ mkdir -p docs/plans
 mkdir -p docs/brainstorms
 mkdir -p life/decisions
 mkdir -p life/motivation
+mkdir -p life/observation-reports
 
 [ ! -f "life/motivation/achievements.json" ] && echo '{}' > life/motivation/achievements.json
 [ ! -f "life/motivation/milestones.json" ] && echo '{"milestones": [], "nextMilestones": []}' > life/motivation/milestones.json
@@ -338,8 +368,8 @@ mkdir -p life/motivation
 
 echo -e "        ${GREEN}✓ Done${NC}"
 
-# Step 3: Update AGENTS.md rules
-echo -e "  ${DIM}[3/4]${NC} Updating AGENTS.md rules..."
+# Step 3: Update AGENTS.md rules (incremental)
+echo -e "  ${DIM}[3/4]${NC} Updating AGENTS.md rules (incremental)..."
 
 AGENTS_FILE="$WORKSPACE/AGENTS.md"
 
@@ -398,13 +428,14 @@ Automated tasks:
 | Compound Extraction | Daily 04:00 | Create reusable solutions |
 | Knowledge Validation | Sunday 02:30 | Detect stale/conflicts |
 | Nighttime Optimizer | Sunday 03:00 | System maintenance |
+| Monitor | Daily 22:00 | Framework health monitoring |
 <!-- COMPOUND_MIND_END -->
 EOF
   echo -e "        ${GREEN}✓ Done${NC}"
 fi
 
-# Step 3.5: Update HEARTBEAT.md
-echo -e "  ${DIM}[3.5/4]${NC} Updating HEARTBEAT.md..."
+# Step 3.5: Update HEARTBEAT.md (incremental)
+echo -e "  ${DIM}[3.5/4]${NC} Updating HEARTBEAT.md (incremental)..."
 
 HEARTBEAT_FILE="$WORKSPACE/HEARTBEAT.md"
 
@@ -420,33 +451,31 @@ if [ -f "$HEARTBEAT_FILE" ]; then
 ---
 
 <!-- COMPOUND_MIND_START -->
-### 框架健康检查
+### Framework Health Check
 
-检查 Compound Mind 框架运行状态：
+**Note**: Automatic monitoring is handled by `compound-mind-monitor` task (daily 22:00).
 
-**Cron 任务状态检测**：
-- 检查 compound-mind-* 任务状态
-- 记录到 `life/health-state.json`
-- 异常条件：status=error 或超时未运行
+**Manual Checklist** (when owner asks about framework status):
 
-**MEMORY.md 更新检测**：
-- 检查最后更新时间
-- 超过 24h 未更新 → 提醒主人
+1. **Flywheel Tasks Status**
+   - [ ] checkpoint (every 6h)
+   - [ ] compound (daily 04:00)
+   - [ ] knowledge (Sunday 02:30)
+   - [ ] optimizer (Sunday 03:00)
+   - [ ] monitor (daily 22:00)
 
-**目录结构检测**：
-- 检查 docs/solutions/, life/decisions/, memory/ 是否存在
+2. **Directory Structure**
+   - [ ] docs/solutions/ exists
+   - [ ] docs/plans/ exists
+   - [ ] docs/brainstorms/ exists
+   - [ ] life/decisions/ exists
+   - [ ] life/observation-reports/ exists
+   - [ ] memory/ exists
 
-**目录规范检测**：
-- 检查是否有错误的目录：`plans/`, `solutions/`, `brainstorms/`
-- 如果存在，在心跳回复中警告："发现错误的目录结构，请移动到正确位置"
-- 错误位置 → 正确位置映射：
-  - `plans/` → `docs/plans/`
-  - `solutions/` → `docs/solutions/`
-  - `brainstorms/` → `docs/brainstorms/`
-
-**异常通知**：
-- 检测到异常时，在心跳回复中提及
-- 不在深夜通知（23:00-08:00）
+3. **Content Updates**
+   - [ ] MEMORY.md updated within 24h
+   - [ ] Today's log exists
+   - [ ] Observation report generated
 
 <!-- COMPOUND_MIND_END -->
 EOF
@@ -457,50 +486,91 @@ else
   echo -e "        ${GREEN}✓ Created${NC}"
 fi
 
-# Step 4: Update Cron tasks
-echo -e "  ${DIM}[4/4]${NC} Updating Cron tasks..."
+# Step 4: Update Cron tasks (增量更新 - v1.5.0)
+echo -e "  ${DIM}[4/4]${NC} Updating Cron tasks (incremental)..."
 
-# Remove old tasks
-for job_id in $(openclaw cron list --json 2>/dev/null | grep -o '"id":"[^"]*"' | grep -o '[^"]*-[a-f0-9]*' | head -20); do
-  job_name=$(openclaw cron list --json 2>/dev/null | grep -A1 "\"id\":\"$job_id\"" | grep '"name"' | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
-  if [[ "$job_name" == "compound-mind-"* ]]; then
-    openclaw cron remove "$job_id" 2>/dev/null
-  fi
-done
+# 获取现有任务列表
+EXISTING_TASKS=$(openclaw cron list --json 2>/dev/null | grep -o '"name":"compound-mind-[^"]*"' | cut -d'"' -f4)
 
-# Add updated tasks
-openclaw cron add --name "compound-mind-checkpoint" \
-  --every 6h \
-  --agent "$AGENT_ID" \
-  --model "$MODEL" \
-  --message "Checkpoint extraction: Extract key info from today's log. Steps: 1. Read memory/YYYY-MM-DD.md 2. Extract decisions/learnings/events 3. Write to MEMORY.md. If no content, reply CHECKPOINT_OK."
+# 检查并创建缺失的任务
 
-openclaw cron add --name "compound-mind-compound" \
-  --cron "0 4 * * *" \
-  --agent "$AGENT_ID" \
-  --model "$MODEL" \
-  --message "Compound extraction: Extract reusable solutions from logs."
+# compound-mind-checkpoint
+if echo "$EXISTING_TASKS" | grep -q "^compound-mind-checkpoint$"; then
+  echo -e "        ${DIM}✓ compound-mind-checkpoint already exists${NC}"
+else
+  echo -e "        ${BLUE}+ Creating compound-mind-checkpoint${NC}"
+  openclaw cron add --name "compound-mind-checkpoint" \
+    --every 6h \
+    --agent "$AGENT_ID" \
+    --model "$MODEL" \
+    --message "Checkpoint extraction: Extract key info from today's log. Steps: 1. Read memory/YYYY-MM-DD.md 2. Extract decisions/learnings/events 3. Write to MEMORY.md. If no content, reply CHECKPOINT_OK."
+fi
 
-openclaw cron add --name "compound-mind-knowledge" \
-  --cron "30 2 * * 0" \
-  --agent "$AGENT_ID" \
-  --model "$MODEL" \
-  --message "Knowledge validation: 1. Read MEMORY.md, life/decisions/, docs/solutions/, memory/*.md 2. Check for: stale content (>30 days old), isolated content (no references), duplicate content (similar entries) 3. Write findings to life/health-state.json under 'validation' key 4. Alert owner if critical issues found."
+# compound-mind-compound
+if echo "$EXISTING_TASKS" | grep -q "^compound-mind-compound$"; then
+  echo -e "        ${DIM}✓ compound-mind-compound already exists${NC}"
+else
+  echo -e "        ${BLUE}+ Creating compound-mind-compound${NC}"
+  openclaw cron add --name "compound-mind-compound" \
+    --cron "0 4 * * *" \
+    --agent "$AGENT_ID" \
+    --model "$MODEL" \
+    --message "Compound extraction: Extract reusable solutions from logs."
+fi
 
-openclaw cron add --name "compound-mind-optimizer" \
-  --cron "0 3 * * 0" \
-  --agent "$AGENT_ID" \
-  --model "$MODEL" \
-  --message "Nighttime optimizer: System health maintenance."
+# compound-mind-knowledge
+if echo "$EXISTING_TASKS" | grep -q "^compound-mind-knowledge$"; then
+  echo -e "        ${DIM}✓ compound-mind-knowledge already exists${NC}"
+else
+  echo -e "        ${BLUE}+ Creating compound-mind-knowledge${NC}"
+  openclaw cron add --name "compound-mind-knowledge" \
+    --cron "30 2 * * 0" \
+    --agent "$AGENT_ID" \
+    --model "$MODEL" \
+    --message "Knowledge validation: 1. Read MEMORY.md, life/decisions/, docs/solutions/, memory/*.md 2. Check for: stale content (>30 days old), isolated content (no references), duplicate content (similar entries) 3. Write findings to life/health-state.json under 'validation' key 4. Alert owner if critical issues found."
+fi
 
-# Add monitor task (v1.4.0+)
-openclaw cron add --name "compound-mind-monitor" \
-  --cron "0 22 * * *" \
-  --agent "$AGENT_ID" \
-  --model "$MODEL" \
-  --message "Monitor task: 1. Check all flywheel task status 2. Check directory structure 3. Check MEMORY.md update 4. Generate observation report to life/observation-reports/YYYY-MM-DD.md 5. Update life/health-state.json. Reply MONITOR_OK if all good, or alert if issues found."
+# compound-mind-optimizer
+if echo "$EXISTING_TASKS" | grep -q "^compound-mind-optimizer$"; then
+  echo -e "        ${DIM}✓ compound-mind-optimizer already exists${NC}"
+else
+  echo -e "        ${BLUE}+ Creating compound-mind-optimizer${NC}"
+  openclaw cron add --name "compound-mind-optimizer" \
+    --cron "0 3 * * 0" \
+    --agent "$AGENT_ID" \
+    --model "$MODEL" \
+    --message "Nighttime optimizer: System health maintenance."
+fi
+
+# compound-mind-monitor (v1.4.0+)
+if echo "$EXISTING_TASKS" | grep -q "^compound-mind-monitor$"; then
+  echo -e "        ${DIM}✓ compound-mind-monitor already exists${NC}"
+else
+  echo -e "        ${BLUE}+ Creating compound-mind-monitor${NC}"
+  openclaw cron add --name "compound-mind-monitor" \
+    --cron "0 22 * * *" \
+    --agent "$AGENT_ID" \
+    --model "$MODEL" \
+    --message "Monitor task: 1. Check all flywheel task status 2. Check directory structure 3. Check MEMORY.md update 4. Generate observation report to life/observation-reports/YYYY-MM-DD.md 5. Update life/health-state.json. Reply MONITOR_OK if all good, or alert if issues found."
+fi
 
 echo -e "        ${GREEN}✓ Done${NC}"
+
+# Step 5: Log update
+echo -e "  ${DIM}[5/4]${NC} Logging update..."
+
+LOG_FILE="$SCRIPT_DIR/logs/update.log"
+LOG_TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+if [ ! -f "$LOG_FILE" ]; then
+  echo "# Compound Mind Update Log" > "$LOG_FILE"
+  echo "# Format: [TIMESTAMP] [OLD_VERSION] → [NEW_VERSION] [STATUS] [BACKUP]" >> "$LOG_FILE"
+  echo "" >> "$LOG_FILE"
+fi
+
+echo "[${LOG_TIMESTAMP}] ${LOCAL_VERSION} → ${REMOTE_VERSION} SUCCESS backup:${BACKUP_TIMESTAMP}" >> "$LOG_FILE"
+
+echo -e "        ${GREEN}✓ Logged to logs/update.log${NC}"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Complete
@@ -515,7 +585,9 @@ echo -e "  ${BOLD}Updated:${NC}"
 echo -e "    ✅ compound-mind.config.json → ${REMOTE_VERSION}"
 echo -e "    ✅ Directory structure"
 echo -e "    ✅ AGENTS.md rules"
-echo -e "    ✅ Cron tasks"
+echo -e "    ✅ Cron tasks (incremental)"
+echo -e "    ✅ Backup created: backups/${BACKUP_TIMESTAMP}"
+echo -e "    ✅ Update logged"
 echo ""
 echo -e "  ${BLUE}Framework updated to latest version! 🐢${NC}"
 echo ""

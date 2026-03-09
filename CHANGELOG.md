@@ -5,6 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-03-10
+
+### Added
+
+- **Incremental Update** - Smart update without losing task history
+  - Only create missing Cron tasks
+  - Preserve existing tasks and their history
+  - Show task status (exists/new)
+
+- **Version Migration** - Automated migration between versions
+  - `migrations/v1.4.0-to-v1.5.0.sh` script
+  - Update health-state.json structure
+  - Create observation-reports directory
+
+- **Backup & Rollback** - Safe update with recovery
+  - Automatic backup before update
+  - `backups/YYYY-MM-DD-HHMMSS/` directory
+  - `rollback.sh` for recovery
+
+- **Update Log** - Track update history
+  - `logs/update.log` records all updates
+  - Version, timestamp, status, backup location
+
+- **Plan Enforcement** - Ensure plans are documented
+  - AGENTS.md checklist for plan creation
+  - `compound-mind-plan-check` task (daily 21:00)
+  - Alert when long-term tasks missing plan files
+
+### Changed
+
+- **update.sh** - Complete rewrite with incremental update
+  - Step 0: Version migration
+  - Step 0.5: Automatic backup
+  - Step 4: Incremental Cron task update
+  - Step 5: Update logging
+
+### Fixed
+
+- Cron tasks being recreated (losing history)
+- No backup before update
+- No rollback mechanism
+- Plans not being documented
+
+---
+
 ## [1.4.0] - 2026-03-09
 
 ### Added
