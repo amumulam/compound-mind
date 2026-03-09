@@ -5,7 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.0] - 2026-03-07
+## [1.4.0] - 2026-03-09
+
+### Added
+
+- **Monitor task** - 5th flywheel task for framework self-monitoring
+  - Daily execution at 22:00
+  - Check all flywheel task status
+  - Check directory structure compliance
+  - Check MEMORY.md update status
+  - Generate observation report to `life/observation-reports/YYYY-MM-DD.md`
+  - Update `life/health-state.json` with current status
+- **Observation report generation** - Automated daily report
+  - Flywheel task status summary
+  - Directory structure check results
+  - Content update check results
+  - Issues found and optimization suggestions
+- **Enhanced health-state.json** - New structure with:
+  - `flywheel` - All 5 task statuses
+  - `directoryCheck` - Directory structure status
+  - `contentCheck` - Content update status
+  - `alerts` - Exception alerts
+
+### Changed
+
+- **HEARTBEAT.md redefined** - From "auto-execution guide" to "manual checklist"
+  - Clarified: automatic monitoring is done by monitor task
+  - Manual checklist for when owner asks about framework status
+  - Design documentation for monitor task
+- **install.sh** - Added monitor task configuration
+- **update.sh** - Added monitor task migration
+- **compound-mind.config.json** - Updated to v1.4.0 with tasks list
+
+### Fixed
+
+- Observation reports not being generated
+- health-state.json not being updated
+- Framework health status not visible
+
+## [1.3.0] - 2026-03-07
 
 ### Added
 

@@ -493,6 +493,13 @@ openclaw cron add --name "compound-mind-optimizer" \
   --model "$MODEL" \
   --message "Nighttime optimizer: System health maintenance."
 
+# Add monitor task (v1.4.0+)
+openclaw cron add --name "compound-mind-monitor" \
+  --cron "0 22 * * *" \
+  --agent "$AGENT_ID" \
+  --model "$MODEL" \
+  --message "Monitor task: 1. Check all flywheel task status 2. Check directory structure 3. Check MEMORY.md update 4. Generate observation report to life/observation-reports/YYYY-MM-DD.md 5. Update life/health-state.json. Reply MONITOR_OK if all good, or alert if issues found."
+
 echo -e "        ${GREEN}✓ Done${NC}"
 
 # ─────────────────────────────────────────────────────────────────────────────

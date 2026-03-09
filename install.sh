@@ -272,20 +272,29 @@ mkdir -p life/motivation
 [ ! -f "life/motivation/streaks.json" ] && echo '{}' > life/motivation/streaks.json
 [ ! -f "life/health-state.json" ] && cat > life/health-state.json << 'HEALTHSTATEEOF'
 {
+  "version": "1.4.0",
   "lastCheck": null,
-  "version": "1.0.0",
-  "cronTasks": {
+  "flywheel": {
     "checkpoint": { "status": "unknown", "lastRun": null, "nextRun": null },
     "compound": { "status": "unknown", "lastRun": null, "nextRun": null },
     "knowledge": { "status": "unknown", "lastRun": null, "nextRun": null },
-    "optimizer": { "status": "unknown", "lastRun": null, "nextRun": null }
+    "optimizer": { "status": "unknown", "lastRun": null, "nextRun": null },
+    "monitor": { "status": "unknown", "lastRun": null, "nextRun": null }
   },
-  "memoryUpdate": null,
   "directoryCheck": {
     "docs/solutions": false,
+    "docs/plans": false,
+    "docs/brainstorms": false,
     "life/decisions": false,
+    "life/observation-reports": false,
     "memory": false,
-    "MEMORY.md": false
+    "invalidDirs": []
+  },
+  "contentCheck": {
+    "memoryUpdated": false,
+    "memoryLastUpdate": null,
+    "observationReportGenerated": false,
+    "todayLogExists": false
   },
   "alerts": []
 }
@@ -294,7 +303,7 @@ HEALTHSTATEEOF
 # Create config file
 cat > compound-mind.config.json << CONFIGEOF
 {
-  "version": "1.0.0",
+  "version": "1.4.0",
   "name": "compound-mind",
   "cronModel": "$MODEL"
 }
@@ -373,6 +382,7 @@ Automated tasks:
 | Compound Extraction | Daily 04:00 | Create reusable solutions |
 | Knowledge Validation | Sunday 02:30 | Detect stale/conflicts |
 | Nighttime Optimizer | Sunday 03:00 | System maintenance |
+| Monitor | Daily 22:00 | Framework health monitoring |
 <!-- COMPOUND_MIND_END -->
 EOF
     echo -e "        ${GREEN}✓ Done${NC}"
@@ -481,6 +491,12 @@ openclaw cron add --name "compound-mind-optimizer" \
   --model "$MODEL" \
   --message "Nighttime optimizer: System health maintenance."
 
+openclaw cron add --name "compound-mind-monitor" \
+  --cron "0 22 * * *" \
+  --agent "$AGENT_ID" \
+  --model "$MODEL" \
+  --message "Monitor task: 1. Check all flywheel task status 2. Check directory structure 3. Check MEMORY.md update 4. Generate observation report to life/observation-reports/YYYY-MM-DD.md 5. Update life/health-state.json. Reply MONITOR_OK if all good, or alert if issues found."
+
 echo -e "        ${GREEN}✓ Done${NC}"
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -496,7 +512,7 @@ echo -e "  ${BOLD}Installed:${NC}"
 echo -e "    ✅ Directory structure"
 echo -e "    ✅ AGENTS.md rules"
 echo -e "    ✅ Compound Engineering Plugin"
-echo -e "    ✅ 5 Cron tasks"
+echo -e "    ✅ 5 Cron tasks (v1.4.0 with monitor)"
 echo ""
 echo -e "  ${BOLD}Next steps:${NC}"
 echo -e "    1. Use ${CYAN}/ce:plan${NC} to create plans"
