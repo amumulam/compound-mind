@@ -1,5 +1,105 @@
 {
-  "version": "1.4.0",
+  "version": "1.6.0",
   "name": "compound-mind",
-  "cronModel": "bailian-coding-plan/glm-5"
+  "cronModel": "bailian-coding-plan/glm-4.7",
+  "description": "Compound Mind 框架 - 自动化经验沉淀系统",
+  "tasks": {
+    "checkpoint": {
+      "name": "compound-mind-checkpoint",
+      "schedule": "every 6h",
+      "description": "检查点提取 - 每 6 小时从日志提取关键信息到 MEMORY.md",
+      "payload": {
+        "message": "检查点提取任务：\n\n**输入**：\n- 读取 memory/ 目录下最近 2 个日志文件（按时间排序）\n- 读取 MEMORY.md（了解当前记忆状态）\n\n**处理**：\n- 提取过去 6 小时的重要决策、教训、完成的项目\n- 识别重复内容，避免重复写入\n\n**输出**：\n- **必须写入 MEMORY.md**，追加到「重要事件」章节末尾\n- 格式：\n  ### YYYY-MM-DD\n  - 事件 1\n  - 事件 2\n\n**判断标准**：\n- 过去 6h 有新内容 → 写入 MEMORY.md\n- 无新内容 → 回复 CHECKPOINT_OK，跳过更新\n\n**注意**：\n- 必须明确执行写入操作\n- 输出摘要，确认写入内容",
+        "model": "bailian-coding-plan/glm-4.7",
+        "timeoutSeconds": 300
+      },
+      "validation": {
+        "requiredCommands": ["读取 memory/", "写入 MEMORY.md"],
+        "expectedOutputs": ["MEMORY.md"],
+        "forbiddenPatterns": ["只输出摘要", "不写入文件"]
+      }
+    },
+    "compound": {
+      "name": "compound-mind-compound",
+      "schedule": "0 4 * * *",
+      "description": "经验沉淀提取 - 每天 4:00 从日志提取可复用的解决方案",
+      "payload": {
+        "message": "Compound 提取任务：\n\n**输入**：\n- 读取 memory/ 目录下最近 7 天的日志文件\n- 读取 docs/solutions/INDEX.md（了解已有方案）\n\n**处理**：\n- 识别可复用的解决方案、经验教训、最佳实践\n- 检查是否已存在于 docs/solutions/\n- 为新方案创建 Markdown 文件\n\n**输出**：\n- **必须写入 docs/solutions/YYYY-MM-DD-xxx.md**\n- 更新 docs/solutions/INDEX.md，添加新方案链接\n- 格式遵循 docs/solutions/TEMPLATE.md\n\n**判断标准**：\n- 有新方案 → 创建文件 + 更新 INDEX.md\n- 无新方案 → 回复 COMPOUND_OK，跳过更新\n\n**注意**：\n- 方案必须有标题、问题描述、解决方案、适用场景\n- 避免重复创建相同方案",
+        "model": "bailian-coding-plan/glm-4.7",
+        "timeoutSeconds": 600
+      },
+      "validation": {
+        "requiredCommands": ["读取 memory/", "写入 docs/solutions/"],
+        "expectedOutputs": ["docs/solutions/*.md", "docs/solutions/INDEX.md"],
+        "forbiddenPatterns": ["只输出摘要", "不写入文件"]
+      }
+    },
+    "knowledge": {
+      "name": "compound-mind-knowledge",
+      "schedule": "30 2 * * 0",
+      "description": "知识验证 - 每周日 2:30 检查知识孤岛和重复内容",
+      "payload": {
+        "message": "知识验证任务：\n\n**输入**：\n- 读取 docs/solutions/ 目录下所有方案文件\n- 读取 MEMORY.md\n- 读取 docs/plans/ 目录下所有计划文件\n\n**处理**：\n- 检查孤立内容（被引用少于 2 次的方案）\n- 检查重复内容（标题或内容相似度>80%）\n- 检查过期内容（引用已删除的计划）\n\n**输出**：\n- **必须写入 docs/solutions/KNOWLEDGE-AUDIT.md**\n- 列出：孤立内容、重复内容、过期内容\n- 提供清理建议\n\n**判断标准**：\n- 发现问题 → 写入审计报告 + 建议操作\n- 无问题 → 回复 KNOWLEDGE_OK\n\n**注意**：\n- 不要自动删除内容，只提供建议\n- 相似度过滤阈值 80%",
+        "model": "bailian-coding-plan/glm-5",
+        "timeoutSeconds": 600
+      },
+      "validation": {
+        "requiredCommands": ["读取 docs/solutions/", "写入 docs/solutions/KNOWLEDGE-AUDIT.md"],
+        "expectedOutputs": ["docs/solutions/KNOWLEDGE-AUDIT.md"],
+        "forbiddenPatterns": ["自动删除", "不生成报告"]
+      }
+    },
+    "optimizer": {
+      "name": "compound-mind-optimizer",
+      "schedule": "0 3 * * 0",
+      "description": "夜间优化 - 每周日 3:00 系统健康维护",
+      "payload": {
+        "message": "夜间优化任务：\n\n**输入**：\n- 检查 Git 仓库状态（git status）\n- 检查磁盘空间（df -h）\n- 检查 Cron 任务状态（openclaw cron list）\n\n**处理**：\n- Git 提交待变更文件（如果有）\n- 清理临时文件（backups/ 保留最近 7 天）\n- 验证 Cron 任务正常运行\n\n**输出**：\n- **必须写入 life/optimizer-log.md**\n- 记录：Git 提交、清理的文件、Cron 状态\n- 如有异常，写入 alerts 字段\n\n**判断标准**：\n- 有变更 → Git 提交 + 记录日志\n- 无变更 → 回复 OPTIMIZER_OK\n\n**注意**：\n- Git 提交前必须检查是否有敏感信息\n- 备份文件保留 7 天，不要全部删除",
+        "model": "bailian-coding-plan/glm-5",
+        "timeoutSeconds": 600
+      },
+      "validation": {
+        "requiredCommands": ["git status", "openclaw cron list"],
+        "expectedOutputs": ["life/optimizer-log.md"],
+        "forbiddenPatterns": ["删除所有备份", "提交敏感信息"]
+      }
+    },
+    "planCheck": {
+      "name": "compound-mind-plan-check",
+      "schedule": "0 21 * * *",
+      "description": "计划检查 - 每天 21:00 检查长期任务是否有对应计划文件",
+      "payload": {
+        "message": "计划检查任务：\n\n**输入**：\n- 读取 MEMORY.md 中的「长期任务」章节\n- 检查 docs/plans/ 目录下所有计划文件\n\n**处理**：\n- 对比 MEMORY.md 中声明的长期任务和 docs/plans/ 中的文件\n- 识别缺失的计划文件\n\n**输出**：\n- 如有缺失 → 向主人发送警报，说明缺失的计划\n- 如无缺失 → 回复 PLAN_CHECK_OK\n\n**判断标准**：\n- MEMORY.md 声明的每个长期任务 → docs/plans/ 必须有对应文件\n- 文件名格式：YYYY-MM-DD-task-name.md\n\n**注意**：\n- 只检查，不自动创建计划文件\n- 警报必须列出具体缺失的文件名",
+        "model": "bailian-coding-plan/kimi-k2.5",
+        "timeoutSeconds": 300
+      },
+      "validation": {
+        "requiredCommands": ["读取 MEMORY.md", "检查 docs/plans/"],
+        "expectedOutputs": ["警报或 PLAN_CHECK_OK"],
+        "forbiddenPatterns": ["自动创建计划", "不检查"]
+      }
+    },
+    "monitor": {
+      "name": "compound-mind-monitor",
+      "schedule": "0 22 * * *",
+      "description": "框架监测 - 每天 22:00 检查 Flywheel 任务状态并生成观测报告",
+      "payload": {
+        "message": "Compound Mind Monitor 任务 - 严格按以下步骤执行：\n\n## 1. 检查 Flywheel 任务状态\n\n**输入**：\n- 执行命令：openclaw cron list\n- 读取 /root/.openclaw/cron/jobs.json\n\n**重要**：使用 OpenClaw Cron 命令，不是系统 crontab！\n\n检查以下 6 个 Flywheel 任务是否存在且状态正常：\n- compound-mind-checkpoint (每 6 小时) - 期望 status=ok\n- compound-mind-compound (每天 4:00) - 期望 status=ok 或 error\n- compound-mind-knowledge (每周日 2:30) - 期望 status=ok\n- compound-mind-optimizer (每周日 3:00) - 期望 status=ok\n- compound-mind-plan-check (每天 21:00) - 期望 status=ok\n- compound-mind-monitor (每天 22:00) - 期望 status=ok\n\n注意：这些任务配置在 /root/.openclaw/cron/jobs.json，不是系统 crontab！\n\n## 2. 检查目录结构\n\n验证以下目录存在：docs/plans/, docs/solutions/, docs/brainstorms/, memory/, life/decisions/, life/observation-reports/\n\n## 3. 检查 MEMORY.md 更新\n\n文件位置：/root/.openclaw/workspace-baba/MEMORY.md，确认 24 小时内有更新\n\n## 4. 生成观测报告\n\n**输出**：\n- **必须写入 life/observation-reports/YYYY-MM-DD.md**\n- 包含任务状态表格、目录检查、MEMORY.md 状态\n\n## 5. 更新健康状态\n\n**输出**：\n- **必须写入 life/health-state.json**\n- 更新 lastCheck 时间和各任务状态\n\n## 6. 汇报结果\n\n**判断标准**：\n- 如果所有检查通过：回复 MONITOR_OK\n- 如果发现问题：详细说明问题并提供建议操作，更新 health-state.json 的 alerts 字段",
+        "model": "bailian-coding-plan/kimi-k2.5",
+        "timeoutSeconds": 300
+      },
+      "validation": {
+        "requiredCommands": ["openclaw cron list"],
+        "expectedOutputs": ["life/observation-reports/YYYY-MM-DD.md", "life/health-state.json"],
+        "forbiddenPatterns": ["crontab -l", "system cron", "系统 crontab"]
+      }
+    }
+  },
+  "metadata": {
+    "createdAt": "2026-03-01",
+    "updatedAt": "2026-03-10",
+    "version": "1.6.0",
+    "author": "巴巴",
+    "repository": "https://github.com/amumulam/compound-mind"
+  }
 }
