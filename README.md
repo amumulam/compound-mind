@@ -1,230 +1,221 @@
-# Compound Mind 框架
+![Compound Mind Banner](./docs/assets/banner.jpg)
 
-**版本**: v1.6.0-alpha3  
-**作者**: 巴巴  
-**状态**: 开发中
+# Compound Mind
 
----
+> Make AI Agents grow with every task.
 
-## 简介
+🌐 [中文文档](README_ZH.md)
 
-Compound Mind 是一个自动化经验沉淀系统，通过定时任务驱动知识复利增长。
-
-**核心理念**：每天进步 1%，一年增长 37 倍。
-
----
-
-## 功能特性
-
-### 飞轮任务
-
-| 任务 | 频率 | 说明 |
-|------|------|------|
-| Checkpoint | 每 6 小时 | 从日志提取关键信息到 MEMORY.md |
-| Compound | 每天 04:00 | 从日志提取可复用的解决方案 |
-| Knowledge | 每周日 02:30 | 检查知识孤岛和重复内容 |
-| Optimizer | 每周日 03:00 | 系统健康维护（Git 提交、清理） |
-| Plan Check | 每天 21:00 | 检查长期任务是否有对应计划文件 |
-| Monitor | 每天 22:00 | 框架监测并生成观测报告 |
-
-### 自动化能力
-
-- ✅ 自动记录：每日日志自动追加到 MEMORY.md
-- ✅ 自动沉淀：解决方案自动提取到 docs/solutions/
-- ✅ 自动验证：每周检查知识质量
-- ✅ 自动监测：每天生成健康报告
+![Version](https://img.shields.io/badge/version-v1.6.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![OpenClaw](https://img.shields.io/badge/OpenClaw-Compatible-orange)
+![Last Updated](https://img.shields.io/github/last-commit/amumulam/compound-mind)
 
 ---
 
-## 快速开始
+## 📖 Introduction
 
-### 安装
+**Compound Mind** is an automated experience sedimentation system for OpenClaw agents. It transforms daily logs into reusable solutions through scheduled tasks, enabling compound growth of knowledge over time.
+
+### Core Philosophy
+
+> Improve 1% every day, grow 37x in a year.
+
+Compound Mind implements the concept of **compound growth** for AI agent knowledge:
+- 📝 **Daily logs** capture raw experiences
+- 💡 **Automated extraction** distills reusable solutions
+- 📚 **Structured storage** builds a knowledge base
+- 🔄 **Continuous iteration** enables self-improvement
+
+---
+
+## ✨ Features
+
+### Flywheel Tasks
+
+| Task | Frequency | Description |
+|------|-----------|-------------|
+| 🔄 **Checkpoint** | Every 6 hours | Extract key insights from logs to MEMORY.md |
+| 💡 **Compound** | Daily 04:00 | Auto-generate reusable solutions from logs |
+| 🔍 **Knowledge Validation** | Weekly Sunday 02:30 | Check for knowledge silos and duplicates |
+| 🛠️ **Optimizer** | Weekly Sunday 03:00 | System health maintenance (Git commits, cleanup) |
+| 📋 **Plan Check** | Daily 21:00 | Ensure long-term tasks have plan files |
+| 📊 **Monitor** | Daily 22:00 | Framework health monitoring & reports |
+
+### Automated Capabilities
+
+- ✅ **Auto Recording** - Daily logs automatically appended to MEMORY.md
+- ✅ **Auto Sedimentation** - Solutions extracted to `docs/solutions/`
+- ✅ **Auto Validation** - Weekly knowledge quality checks
+- ✅ **Auto Monitoring** - Daily health reports generated
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- OpenClaw installed and configured
+- Access to OpenClaw Cron functionality
+
+### Installation
 
 ```bash
+# Clone the repository
 cd /root/.openclaw/workspace-baba
-./install.sh
+git clone https://github.com/amumulam/compound-mind.git
+
+# Run installation script
+cd compound-mind
+chmod +x install.sh && ./install.sh
 ```
 
-### 验证
+### Verification
 
 ```bash
-# 查看任务状态
+# Check task status
 openclaw cron list | grep compound-mind
 
-# 查看观测报告
-cat life/observation-reports/YYYY-MM-DD.md
+# View observation reports
+cat life/observation-reports/$(date +%Y-%m-%d).md
 
-# 查看健康状态
+# Check health status
 cat life/health-state.json
 ```
 
 ---
 
-## 目录结构
+## 🏗️ Architecture
 
 ```
-/root/.openclaw/workspace-baba/
-├── compound-mind.config.json    # 框架配置（任务定义 + payload）
-├── CHANGELOG.md                  # 变更日志
-├── install.sh                    # 安装脚本
-├── update.sh                     # 更新脚本
-├── rollback.sh                   # 回滚脚本
+┌─────────────────────────────────────────────────────────┐
+│                    Compound Mind Flywheel               │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│   ┌─────────┐    ┌─────────┐    ┌─────────┐           │
+│   │Checkpoint│ →  │Compound │ →  │Knowledge│           │
+│   │ 每 6 小时  │    │ 每天 04:00│    │ 每周日   │           │
+│   └─────────┘    └─────────┘    └─────────┘           │
+│        ↓                                  ↓            │
+│   记忆沉淀                            质量验证          │
+│                                                         │
+│   ┌─────────┐    ┌─────────┐                           │
+│   │Optimizer│ ←  │ Monitor │                           │
+│   │ 每周日   │    │ 每天 22:00│                           │
+│   └─────────┘    └─────────┘                           │
+│        ↓                                  ↓            │
+│   健康维护                            观测报告          │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Data Flow
+
+```
+Daily Logs → Checkpoint → MEMORY.md
+                ↓
+        Compound Extraction
+                ↓
+        docs/solutions/
+                ↓
+        Knowledge Validation
+                ↓
+        Health Reports
+```
+
+---
+
+## 📂 Directory Structure
+
+```
+compound-mind/
+├── README.md                      # English documentation
+├── README_ZH.md                   # Chinese documentation
+├── compound-mind.config.json      # Framework configuration
+├── CHANGELOG.md                   # Version history
+├── install.sh                     # Installation script
+├── update.sh                      # Update script
+├── rollback.sh                    # Rollback script
 ├── scripts/
-│   ├── validate_config.py        # 配置验证
-│   ├── create_cron_tasks.py      # 任务创建
-│   ├── verify_tasks.py           # 任务验证
-│   └── migrate_cron_tasks.py     # 任务迁移
+│   ├── validate_config.py         # Configuration validation
+│   ├── create_cron_tasks.py       # Task creation
+│   ├── verify_tasks.py            # Task verification
+│   └── migrate_cron_tasks.py      # Task migration
 ├── docs/
-│   ├── plans/                    # 计划文件
-│   ├── solutions/                # 解决方案
-│   └── brainstorms/              # 头脑风暴
+│   ├── assets/                    # Images and banners
+│   ├── plans/                     # Plan files
+│   ├── solutions/                 # Reusable solutions
+│   └── brainstorms/               # Brainstorming notes
 ├── life/
-│   ├── decisions/                # 决策记录
-│   ├── health-state.json         # 健康状态
-│   ├── motivation/               # 成就记录
-│   └── observation-reports/      # 观测报告
-└── memory/                       # 每日日志
+│   ├── decisions/                 # Decision records
+│   ├── health-state.json          # Health status
+│   ├── motivation/                # Achievement records
+│   └── observation-reports/       # Observation reports
+└── memory/                        # Daily logs
 ```
 
 ---
 
-## 配置说明
+## 📊 Live Demo
 
-### compound-mind.config.json
+### Sample Observation Report
 
-```json
-{
-  "version": "1.6.0",
-  "name": "compound-mind",
-  "tasks": {
-    "checkpoint": {
-      "name": "compound-mind-checkpoint",
-      "schedule": "every 6h",
-      "payload": {
-        "message": "...",
-        "model": "bailian-coding-plan/glm-4.7",
-        "timeoutSeconds": 300
-      },
-      "validation": {
-        "requiredCommands": ["读取 memory/", "写入 MEMORY.md"],
-        "expectedOutputs": ["MEMORY.md"],
-        "forbiddenPatterns": ["只输出摘要"]
-      }
-    }
-  }
-}
+```markdown
+## Compound Mind Monitor Report
+Date: 2026-03-12
+
+### Task Status
+| Task | Status | Last Run |
+|------|--------|----------|
+| Checkpoint | ✅ OK | 2 hours ago |
+| Compound | ✅ OK | 8 hours ago |
+| Knowledge | ✅ OK | 5 days ago |
+| Optimizer | ✅ OK | 5 days ago |
+| Monitor | ✅ OK | Just now |
+
+### Health Score: 100%
+All systems operational.
 ```
-
-**字段说明**：
-- `version`: 语义化版本号
-- `schedule`: 调度（`every 6h` 或 cron 表达式 `0 4 * * *`）
-- `payload.message`: Agent 执行指令（必须明确输入/处理/输出/判断标准）
-- `validation`: 验证规则（安装/更新时自动验证）
 
 ---
 
-## 更新与回滚
+## 🤝 Contributing
 
-### 更新
+Contributions are welcome! Here's how you can help:
+
+1. **Report Issues** - Found a bug? Open an issue
+2. **Submit PRs** - Have a fix? Send a pull request
+3. **Share Solutions** - Add your solutions to `docs/solutions/`
+4. **Improve Docs** - Help translate or improve documentation
+
+### Development Setup
 
 ```bash
-./update.sh
-```
+# Fork and clone
+git clone https://github.com/amumulam/compound-mind.git
+cd compound-mind
 
-**流程**：
-1. 备份当前配置
-2. 验证新配置
-3. 增量更新 Cron 任务
-4. 验证更新结果
+# Install dependencies
+npm install
 
-### 回滚
-
-```bash
-./rollback.sh <备份目录>
-```
-
-**示例**：
-```bash
-./rollback.sh 2026-03-10-230000
+# Run tests
+./test-framework.sh
 ```
 
 ---
 
-## 故障排查
+## 📄 License
 
-### 任务未执行
-
-```bash
-# 检查任务状态
-openclaw cron list | grep compound-mind
-
-# 查看任务日志
-openclaw cron logs <task-id>
-```
-
-### 配置验证失败
-
-```bash
-# 手动验证配置
-python3 scripts/validate_config.py compound-mind.config.json
-```
-
-### 观测报告未生成
-
-```bash
-# 手动触发 Monitor 任务
-openclaw cron run <monitor-task-id>
-
-# 检查输出目录
-ls -la life/observation-reports/
-```
+MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-## 最佳实践
+## 🌟 Acknowledgments
 
-### 1. 每日检查
-
-- 查看 `memory/YYYY-MM-DD.md` 是否更新
-- 查看 `life/health-state.json` 健康状态
-
-### 2. 每周检查
-
-- 查看 `docs/solutions/` 新增方案
-- 查看 `life/observation-reports/` 观测报告
-
-### 3. 每月检查
-
-- 回顾 `MEMORY.md` 长期记忆
-- 清理过时的解决方案
+- Built on [OpenClaw](https://openclaw.ai)
+- Inspired by compound growth principles
+- Community contributions from OpenClaw users
 
 ---
 
-## 版本历史
-
-详见 [CHANGELOG.md](CHANGELOG.md)
-
-| 版本 | 日期 | 里程碑 |
-|------|------|--------|
-| v1.6.0 | 2026-03-10 | 完整配置 + 自动化部署 |
-| v1.5.0 | 2026-03-09 | 新增 Monitor 任务 |
-| v1.4.0 | 2026-03-07 | 目录规范强制执行 |
-| v1.0.0 | 2026-03-05 | 正式发布 |
-
----
-
-## 贡献
-
-**问题反馈**: 创建 Issue  
-**功能建议**: 创建 Discussion  
-**代码贡献**: 创建 PR
-
----
-
-## 许可证
-
-MIT License
-
----
-
-*最后更新：2026-03-10*
+![Made with ❤️ for OpenClaw Community](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red)
