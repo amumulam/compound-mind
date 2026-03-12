@@ -214,8 +214,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 - Built on [OpenClaw](https://openclaw.ai)
 - Inspired by compound growth principles
-- Architecture design inspired by [Compound Engineering Plugin](https://github.com/openclaw/compound-engineering-plugin)
-- Memory system design inspired by [Claw Intelligent Memory](https://github.com/openclaw/claw-intelligent-memory)
+- Architecture design inspired by [Compound Engineering Plugin](https://github.com/EveryInc/compound-engineering-plugin)
+- Memory system design inspired by [ClawIntelligentMemory](https://github.com/denda188/ClawIntelligentMemory)
 - Community contributions from OpenClaw users
 
 ---
