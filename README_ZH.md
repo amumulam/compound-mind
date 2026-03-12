@@ -214,6 +214,8 @@ MIT License - 详见 [LICENSE](LICENSE) 文件。
 
 - 基于 [OpenClaw](https://openclaw.ai) 构建
 - 灵感来自复利增长原理
+- 架构设计参考 [Compound Engineering Plugin](https://github.com/openclaw/compound-engineering-plugin)
+- 记忆系统设计参考 [Claw Intelligent Memory](https://github.com/openclaw/claw-intelligent-memory)
 - OpenClaw 社区贡献者的支持
 
 ---
